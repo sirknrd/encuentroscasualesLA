@@ -17,6 +17,16 @@ DB_NAME = "registros.db"
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+<p align="center">
+  <img src="assets/logo.png" alt="MEETLA Logo" width="200"/>
+</p>
+
+<h1 align="center">MEETLA — Desliza menos, vive más</h1>
+<p align="center">
+  App de encuentros reales en restaurantes 🍷✨
+</p>
+
+
 def init_db():
     with sqlite3.connect(DB_NAME) as conn:
         c = conn.cursor()
@@ -40,6 +50,99 @@ def init_db():
                 respuestas TEXT
             )
         ''')
+
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+server = app.server  # necesario para Render
+
+app.layout = dbc.Container([
+    dbc.Row([
+        dbc.Col(html.Img(src="/assets/logo.png", style={
+            "height": "120px", "display": "block", "margin": "0 auto", "marginTop": "10px"
+        }))
+    ]),
+    dbc.Row([
+        dbc.Col(html.H2("MEETLA — Desliza menos, vive más",
+                        className="text-center mb-4",
+                        style={"color": "#d100c9", "fontWeight": "bold"}))
+    ]),
+    dbc.Row([
+        dbc.Col([
+            dbc.Form([
+                dbc.Row([
+                    dbc.Col(dbc.Input(id="name", placeholder="Nombre", type="text"), md=6),
+                    dbc.Col(dbc.Input(id="age", placeholder="Edad", type="number", min=18, max=99), md=6),
+                ], className="mb-3"),
+                dbc.Row([
+                    dbc.Col(dbc.Input(id="email", placeholder="Correo electrónico", type="email"), md=6),
+                    dbc.Col(dcc.Dropdown(
+                        id="gender",
+                        options=[
+                            {"label": "Femenino", "value": "F"},
+                            {"label": "Masculino", "value": "M"},
+                            {"label": "Otro", "value": "O"},
+                        ],
+                        placeholder="Género"
+                    ), md=6),
+                ], className="mb-3"),
+                dbc.Input(id="location", placeholder="Localidad", type="text", className="mb-3"),
+                dcc.Dropdown(
+                    id="educacion",
+                    options=[{"label": l, "value": l} for l in ["Educación media", "Técnico profesional", "Universitario", "Postgrado"]],
+                    placeholder="Nivel educacional",
+                    className="mb-3"
+                ),
+                dcc.Dropdown(
+                    id="estado_civil",
+                    options=[{"label": l, "value": l} for l in ["Soltero/a", "Separado/a", "Viudo/a"]],
+                    placeholder="Estado civil",
+                    className="mb-3"
+                ),
+                dcc.Dropdown(
+                    id="fuma",
+                    options=[{"label": l, "value": l} for l in ["No", "Ocasionalmente", "Frecuentemente"]],
+                    placeholder="¿Fumas?",
+                    className="mb-3"
+                ),
+                dcc.Dropdown(
+                    id="hijos",
+                    options=[{"label": l, "value": l} for l in ["Sí", "No"]],
+                    placeholder="¿Tienes hijos?",
+                    className="mb-3"
+                ),
+                dcc.Dropdown(
+                    id="disponibilidad",
+                    options=[{"label": l, "value": l} for l in ["Mañana", "Tarde", "Noche"]],
+                    placeholder="Disponibilidad horaria",
+                    className="mb-3"
+                ),
+                dcc.Dropdown(
+                    id="interes",
+                    options=[{"label": l, "value": l} for l in ["Relación seria", "Conocer personas", "Algo casual"]],
+                    placeholder="Interés romántico",
+                    className="mb-3"
+                ),
+                dbc.Textarea(id="idiomas", placeholder="Idiomas que hablas", className="mb-3"),
+                dbc.Textarea(id="likes", placeholder="Gustos e intereses (cine, deportes, música, etc)", className="mb-3"),
+                html.H5("Fotos (1 a 3):", className="mt-3"),
+                dcc.Upload(id="upload-photo", multiple=True, children=html.Div([
+                    'Arrastra tus fotos o haz click para subir (3 max)' ]),
+                    style={
+                        'width': '100%', 'height': '60px', 'lineHeight': '60px',
+                        'borderWidth': '1px', 'borderStyle': 'dashed', 'borderRadius': '5px',
+                        'textAlign': 'center', 'marginBottom': '20px'
+                    },
+                    accept="image/*"
+                ),
+                html.Div(id="preview"),
+                html.H5("Preguntas para conocerte mejor", className="mb-3 mt-4 text-center"),
+                *generate_questions(),
+                dbc.Button("Enviar", id="submit", color="primary", className="mt-3"),
+                html.Div(id="mensaje", className="mt-3")
+            ])
+        ], md=8, className="offset-md-2")
+    ])
+], fluid=True)
+
 
 def guardar_en_db(**datos):
     with sqlite3.connect(DB_NAME) as conn:
