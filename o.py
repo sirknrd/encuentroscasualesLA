@@ -149,31 +149,35 @@ def entrenar_modelo(df):
 
     X_train, X_val, y_train, y_val = train_test_split(X, y_encoded, test_size=0.2, shuffle=False)
 
-    # Create the model
-    model = lgb.LGBMClassifier(
-        objective='multiclass',
-        num_class=3,
-        learning_rate=0.03,
-        num_leaves=31,
-        metric='multi_logloss',
-        verbose=-1,
-        random_state=42
-    )
+    train_data = lgb.Dataset(X_train, label=y_train)
+    val_data = lgb.Dataset(X_val, label=y_val)
 
-    # Fit the model with early stopping
-    model.fit(
-        X_train,
-        y_train,
-        eval_set=[(X_val, y_val)],
-        eval_metric='multi_logloss',
+    params = {
+        'objective': 'multiclass',
+        'num_class': 3,
+        'learning_rate': 0.03,
+        'num_leaves': 31,
+        'metric': 'multi_logloss',
+        'verbose': -1,
+        'seed': 42
+    }
+
+    model = lgb.train(
+        params,
+        train_data,
+        valid_sets=[val_data],
+        num_boost_round=500,
         early_stopping_rounds=30,
-        verbose=False
+        verbose_eval=False
     )
 
     preds = model.predict(X_val)
-    f1 = f1_score(y_val, preds, average='weighted')
+    preds_labels = np.argmax(preds, axis=1)
+    f1 = f1_score(y_val, preds_labels, average='weighted')
     print(f"[INFO] Modelo entrenado con F1 score ponderado: {f1:.3f}")
     return model, le
+
+
 
 
 def predecir_senal(model, label_encoder, df):
