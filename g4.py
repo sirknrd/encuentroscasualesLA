@@ -10,8 +10,8 @@ import base64
 import uuid
 
 # Configura tu correo (usa variables de entorno reales en producción)
-EMAIL_ADDRESS = "tucorreo@gmail.com"
-EMAIL_PASSWORD = "tu_contraseña_de_aplicación"
+EMAIL_ADDRESS = "conradvonstillfried@gmail.com"
+EMAIL_PASSWORD = "ivoz zlhw cczz rdxp"
 
 DB_NAME = "registros.db"
 UPLOAD_FOLDER = "uploads"
