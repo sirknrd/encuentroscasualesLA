@@ -9,7 +9,7 @@ import os
 import base64
 import uuid
 
-# Configura tu correo
+# Configura tu correo (usa variables de entorno reales en producción)
 EMAIL_ADDRESS = "tucorreo@gmail.com"
 EMAIL_PASSWORD = "tu_contraseña_de_aplicación"
 
@@ -90,17 +90,21 @@ questions = [
 def save_photos(files):
     filenames = []
     for file in files:
-        if file is not None:
-            content_type, content_string = file.split(',')
-            ext = content_type.split('/')[1].split(';')[0]
-            fname = f"{uuid.uuid4()}.{ext}"
-            filepath = os.path.join(UPLOAD_FOLDER, fname)
-            with open(filepath, "wb") as f:
-                f.write(base64.b64decode(content_string))
-            filenames.append(filepath)
+        if file:
+            try:
+                content_type, content_string = file.split(',')
+                ext = content_type.split('/')[1].split(';')[0]
+                fname = f"{uuid.uuid4()}.{ext}"
+                filepath = os.path.join(UPLOAD_FOLDER, fname)
+                with open(filepath, "wb") as f:
+                    f.write(base64.b64decode(content_string))
+                filenames.append(filepath)
+            except Exception as e:
+                print(f"Error al guardar foto: {e}")
     return filenames
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+server = app.server  # ← necesario para Render
 
 def generate_questions():
     return [
@@ -136,11 +140,7 @@ app.layout = dbc.Container([
                 dbc.Input(id="location", placeholder="Localidad", type="text", className="mb-3"),
                 dcc.Dropdown(
                     id="educacion",
-                    options=[
-                        {"label": l, "value": l} for l in [
-                            "Educación media", "Técnico profesional", "Universitario", "Postgrado"
-                        ]
-                    ],
+                    options=[{"label": l, "value": l} for l in ["Educación media", "Técnico profesional", "Universitario", "Postgrado"]],
                     placeholder="Nivel educacional",
                     className="mb-3"
                 ),
@@ -170,9 +170,7 @@ app.layout = dbc.Container([
                 ),
                 dcc.Dropdown(
                     id="interes",
-                    options=[{"label": l, "value": l} for l in [
-                        "Relación seria", "Conocer personas", "Algo casual"
-                    ]],
+                    options=[{"label": l, "value": l} for l in ["Relación seria", "Conocer personas", "Algo casual"]],
                     placeholder="Interés romántico",
                     className="mb-3"
                 ),
@@ -217,7 +215,7 @@ def guardar(n, nombre, edad, email, genero, localidad, educacion, estado, fuma, 
         return dbc.Alert("Responde todas las preguntas.", color="danger"), None
 
     respuestas_dict = {questions[i]: respuestas[i] for i in range(len(questions))}
-    fotos_guardadas = save_photos(fotos or [])[:3]  # max 3
+    fotos_guardadas = save_photos(fotos or [])[:3]
     datos = {
         "nombre": nombre, "edad": edad, "genero": genero, "localidad": localidad,
         "email": email, "educacion": educacion, "estado_civil": estado, "fuma": fuma,
@@ -232,4 +230,6 @@ def guardar(n, nombre, edad, email, genero, localidad, educacion, estado, fuma, 
 
 if __name__ == "__main__":
     init_db()
-    app.run(debug=True)
+    import os
+    port = int(os.environ.get("PORT", 8050))
+    app.run_server(debug=False, host="0.0.0.0", port=port)
