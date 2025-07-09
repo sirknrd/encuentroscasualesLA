@@ -1,0 +1,28 @@
+[
+  {
+    "name": "Ana",
+    "age": 28,
+    "gender": "F",
+    "orientation": "hetero",
+    "location": "Santiago",
+    "likes": ["cine", "viajes"],
+    "answers": {
+      "¿Cuál es tu comida favorita?": "Pizza",
+      "¿Prefieres la playa o la montaña?": "Playa",
+      "...": "..."
+    }
+  },
+  {
+    "name": "Luis",
+    "age": 30,
+    "gender": "M",
+    "orientation": "hetero",
+    "location": "Santiago",
+    "likes": ["deporte", "música"],
+    "answers": {
+      "¿Cuál es tu comida favorita?": "Sushi",
+      "¿Prefieres la playa o la montaña?": "Montaña",
+      "...": "..."
+    }
+  }
+]

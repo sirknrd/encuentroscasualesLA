@@ -1,0 +1,92 @@
+[
+  {
+    "name": "Ana",
+    "age": 28,
+    "gender": "F",
+    "orientation": "hetero",
+    "location": "Santiago",
+    "likes": [
+      "cine",
+      "viajes"
+    ],
+    "answers": {
+      "¿Cuál es tu comida favorita?": "Pizza",
+      "¿Prefieres la playa o la montaña?": "Playa"
+    }
+  },
+  {
+    "name": "Luis",
+    "age": 30,
+    "gender": "M",
+    "orientation": "hetero",
+    "location": "Santiago",
+    "likes": [
+      "deporte",
+      "música"
+    ],
+    "answers": {
+      "¿Cuál es tu comida favorita?": "Sushi",
+      "¿Prefieres la playa o la montaña?": "Montaña"
+    }
+  },
+  {
+    "name": "Carlos",
+    "age": 25,
+    "gender": "M",
+    "orientation": "hetero",
+    "location": "Santiago",
+    "likes": [
+      "videojuegos",
+      "cocina"
+    ],
+    "answers": {
+      "¿Cuál es tu comida favorita?": "Pasta",
+      "¿Prefieres la playa o la montaña?": "Montaña"
+    }
+  },
+  {
+    "name": "Marta",
+    "age": 27,
+    "gender": "F",
+    "orientation": "hetero",
+    "location": "Santiago",
+    "likes": [
+      "lectura",
+      "yoga"
+    ],
+    "answers": {
+      "¿Cuál es tu comida favorita?": "Ensalada",
+      "¿Prefieres la playa o la montaña?": "Playa"
+    }
+  },
+  {
+    "name": "Elena",
+    "age": 29,
+    "gender": "F",
+    "orientation": "hetero",
+    "location": "Santiago",
+    "likes": [
+      "cine",
+      "música"
+    ],
+    "answers": {
+      "¿Cuál es tu comida favorita?": "Tacos",
+      "¿Prefieres la playa o la montaña?": "Playa"
+    }
+  },
+  {
+    "name": "Jorge",
+    "age": 32,
+    "gender": "M",
+    "orientation": "hetero",
+    "location": "Santiago",
+    "likes": [
+      "deporte",
+      "lectura"
+    ],
+    "answers": {
+      "¿Cuál es tu comida favorita?": "Carne",
+      "¿Prefieres la playa o la montaña?": "Montaña"
+    }
+  }
+]
