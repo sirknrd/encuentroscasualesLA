@@ -1,20 +1,37 @@
-# Entorno
+# Entorno virtual
+venv/
+.venv/
+env/
+
+# Variables de entorno — NUNCA commitear
 .env
-*.env
 
-# Base de datos
-*.db
+# Base de datos local — FIX: no versionar datos reales
 registros.db
-registrations.json
 
-# Archivos del sistema
-.DS_Store
-Thumbs.db
-
-# Carpetas generadas
-__pycache__/
+# Fotos subidas por usuarios
 uploads/
-*.pyc
+/tmp/
+
+# Archivos de sistema macOS — FIX: remover del historial con:
+#   git rm --cached .DS_Store
+.DS_Store
+.DS_Store?
+._*
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+*.egg
+
+# IDE
+.vscode/
+.idea/
 
 # Logs
 *.log
